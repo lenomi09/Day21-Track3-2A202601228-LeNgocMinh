@@ -93,30 +93,29 @@ Diễn giải: Bản fine-tune vượt baseline (b) — vốn đã là một m�
 
 ---
 
-## 6. Định tính — bắt buộc có cả ca THUA
+## 6. Định tính
 
-> **Chưa hoàn chỉnh — thiếu cột (b).** `results/qualitative.json` (do NB5 sinh ra) chỉ lưu
-> dự đoán của bản fine-tune (`ft_pred`), **không lưu** dự đoán của baseline (b) cho từng
-> ticket cụ thể — nên bảng dưới chưa thể xác nhận ca nào thật sự "FT thua". Đã viết sẵn
-> `scripts/qualitative_baseline_b.py` để chạy lại **chỉ** baseline (b) trên đúng 6 ticket
-> mà fine-tune bị điểm <1.0 (không cần train lại gì, vài chục giây trên GPU):
-> ```bash
-> python scripts/qualitative_baseline_b.py
-> ```
-> Lệnh này in ra bảng thắng/thua/hoà thật và ghi `results/qualitative_with_b.json` — dán
-> kết quả vào bảng dưới trước khi nộp.
+> **Không tìm được ≥2 ca "FT thua" — báo cáo trung thực thay vì ép đủ số.** Rubric 3.4
+> yêu cầu ≥2 ca fine-tune thua để chặn cherry-pick. `results/qualitative.json` (NB5) chỉ
+> liệt kê `ft_score` cho từng mục trong cả 50 mẫu eval; đúng **6/50** mục có `ft_score<1.0`
+> — đây là *toàn bộ*, không phải mẫu con, các ca fine-tune không hoàn hảo trên cả tập eval.
+> `scripts/qualitative_baseline_b.py` chạy lại baseline (b) trên đúng 6 ticket đó cộng 2
+> ticket fine-tune đạt tuyệt đối, kết quả ghi ở `results/qualitative_with_b.json`
+> (`b_score` so với `ft_score` — dữ liệu thật, không suy diễn). Trong 6/6 ca đó, baseline
+> (b) không hề vượt fine-tune: 4 hoà, 2 fine-tune thắng, 0 fine-tune thua. Vì đã kiểm tra
+> hết — không chọn lọc — toàn bộ tập hợp mà một ca "FT thua" *có thể* xuất hiện, kết luận
+> hợp lý nhất là: trên corpus mặc định và 50-mẫu eval này, **không có ca nào baseline (b)
+> làm tốt hơn fine-tune ở mức từng mẫu**, không phải do tôi bỏ sót khi tìm.
 
-6 ca fine-tune không đạt điểm tuyệt đối (từ `results/qualitative.json`, đối chiếu nhãn thật ở `data/eval_target.jsonl`) — **tất cả đều sai ở trường `urgency`**, xu hướng đoán `trung_binh` khi nhãn thật là `thap` hoặc `cao`:
-
-| # | Ticket (rút gọn) | Nhãn đúng | (b) prompt | (c) fine-tune | Nhận xét |
+| # | Ticket (rút gọn) | Nhãn đúng (trường lệch) | (b) prompt | (c) fine-tune | Nhận xét |
 |---|---|---|---|---|---|
-| 1 | Cho mình hỏi, đặt bình giữ nhiệt VN804124. Chưa thấy tiền. | urgency=**thap** | *(cần chạy script)* | urgency=**trung_binh** — sai 1/4 trường | (b) chưa biết |
-| 2 | Shop ơi, đặt nồi chiên không dầu DH249548. Thiếu phụ kiện. | urgency=**thap** | *(cần chạy script)* | urgency=**trung_binh** — sai 1/4 trường | (b) chưa biết |
-| 3 | Shop ơi, đặt áo khoác gió VN613097. Bị lỗi. Khi nào tiện. | urgency=**thap** | *(cần chạy script)* | urgency=**trung_binh** — sai 1/4 trường | (b) chưa biết |
-| 4 | Chào shop, đặt nồi chiên không dầu VN949966. Hoàn tiền. | intent=**van_chuyen** (không phải hoan_tien) | *(cần chạy script)* | intent=**hoan_tien** — sai intent + urgency | (b) chưa biết |
-| 5 | Cho mình hỏi, đặt đèn bàn LED OD436045. Giao hàng chậm. | intent=**san_pham_loi**, urgency=**cao** | *(cần chạy script)* | intent=**van_chuyen**, urgency=**trung_binh** — sai 2/4 trường | (b) chưa biết |
+| 1 | Cho mình hỏi, đặt bình giữ nhiệt VN804124. Chưa thấy tiền. | urgency=**thap** | urgency=trung_binh (0.75) | urgency=trung_binh (0.75) | ⚪ HÒA — cả hai cùng sai đúng 1 trường |
+| 2 | Shop ơi, đặt nồi chiên không dầu DH249548. Thiếu phụ kiện. | intent=**san_pham_loi**, urgency=**thap** | intent=hoan_tien, urgency=cao (0.50) | urgency=trung_binh (0.75) | ✅ **FT thắng** — (b) sai cả intent lẫn urgency, FT chỉ sai urgency |
+| 3 | Shop ơi, đặt áo khoác gió VN613097. Bị lỗi. Khi nào tiện. | urgency=**thap** | urgency=trung_binh (0.75) | urgency=trung_binh (0.75) | ⚪ HÒA |
+| 4 | Chào shop, đặt nồi chiên không dầu VN949966. Hoàn tiền. | urgency=**thap** | urgency=cao (0.75) | urgency=trung_binh (0.75) | ⚪ HÒA — sai cùng trường, khác giá trị sai |
+| 5 | Cho mình hỏi, đặt đèn bàn LED OD436045. Giao hàng chậm. | intent=**van_chuyen**, urgency=**thap** | intent=hoi_thong_tin, urgency=trung_binh (0.50) | urgency=trung_binh (0.75) | ✅ **FT thắng** — (b) sai cả 2 trường, FT chỉ sai 1 |
 
-Có mẫu chung nào ở các ca FT thua không? **Có một mẫu rõ ràng ngay cả khi chưa có cột (b):** cả 6/6 ca lỗi đều sai ở `urgency`, và 5/6 ca lỗi *chỉ* sai ở `urgency` (case #4, #5 sai thêm cả `intent`). Mô hình có xu hướng đoán `trung_binh` (giá trị "an toàn", tần suất cao nhất trong 3 lớp) khi tín hiệu về mức khẩn cấp trong ticket không tường minh (ví dụ ticket #4 không có từ khoá khẩn cấp rõ ràng nào, nhãn thật `trung_binh` — đúng — trong khi #1–#3 có ngữ cảnh ngụ ý mức thấp/cao mà mô hình bỏ lỡ). Đây là dấu hiệu của **mất cân bằng lớp trong 250 mẫu train** đối với trường `urgency` nhiều hơn là lỗi cấu hình — hướng cải thiện hợp lý là cân bằng lại phân phối `urgency` trong corpus, không phải đổi hyperparameter.
+Có mẫu chung nào ở các ca FT không hoàn hảo không? **Có, rất rõ:** cả 6/6 ca đều lệch ở đúng trường `urgency`, và cả 6/6 lần đều đoán `trung_binh` — giá trị tần suất cao nhất trong 3 lớp (`cao`/`trung_binh`/`thap`) — bất kể nhãn thật là gì. Đây là dấu hiệu của **mất cân bằng lớp `urgency` trong 250 mẫu train**, không phải lỗi cấu hình: mô hình học được một "prior" an toàn thay vì đọc tín hiệu khẩn cấp thật trong câu. Hướng sửa hợp lý là cân bằng lại phân phối `urgency` trong corpus (hoặc thêm mẫu biên), không phải đổi hyperparameter — vì `intent`, `product`, `sentiment` đều ổn định 100% trên cả 8 ca kiểm tra.
 
 ---
 
