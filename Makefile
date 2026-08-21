@@ -4,7 +4,7 @@ PY ?= python3
 VENV ?= .venv
 BIN := $(VENV)/bin
 
-.PHONY: help setup setup-cpu smoke nb1 nb2 nb3 nb4 nb5 nb6 pipeline pipeline-full test verify colab data clean
+.PHONY: help setup setup-cpu smoke nb1 nb2 nb3 nb4 nb5 nb6 pipeline pipeline-full test verify colab kaggle data clean
 
 help:  ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN{FS=":.*?## "}{printf "  \033[36m%-16s\033[0m %s\n", $$1, $$2}'
@@ -48,6 +48,9 @@ verify:  ## Pre-submission gatekeeper — run this before you zip
 
 colab:  ## Regenerate colab/*.ipynb from notebooks/*.py
 	$(BIN)/python scripts/build_colab.py
+
+kaggle:  ## Regenerate kaggle/*.ipynb from notebooks/*.py (1-GPU bootstrap)
+	$(BIN)/python scripts/build_kaggle.py
 
 clean:  ## Remove generated artifacts (keeps the seed corpus)
 	rm -rf adapters/*/ data/split results/*.json results/*.csv gguf __pycache__ .pytest_cache

@@ -48,6 +48,18 @@ Mở **[`colab/Lab21_RUN_ALL.ipynb`](https://colab.research.google.com/github/hi
 > chính nó `git pull` repo — nhưng cài theo *danh sách gói cũ*. Lỗi sẽ nổ ~10 phút sau,
 > bên trong `get_peft_model()`. Xem F-19 trong `SIMULATION-FINDINGS.md`.
 
+### Kaggle
+
+Tạo notebook mới trên kaggle.com/code, upload **[`kaggle/Lab21_RUN_ALL.ipynb`](kaggle/Lab21_RUN_ALL.ipynb)**
+(hoặc copy nội dung từng ô) → Settings → **Accelerator: GPU T4 x2**, **Internet: On**
+(cần verify số điện thoại) → chạy lần lượt ô 1 → 4.
+
+> Kaggle cấp **2 GPU T4** mặc định nhưng lab không cần multi-GPU (xem
+> `HARDWARE-GUIDE.md`) — ô Setup khoá về 1 GPU (`CUDA_VISIBLE_DEVICES=0`) **trước khi**
+> import torch. Quota GPU miễn phí ~30 giờ/tuần, mỗi session tối đa ~9–12 giờ — đủ cho
+> một lần chạy full pipeline (~100–130 phút). Regenerate notebook này bằng `make kaggle`
+> sau khi sửa `notebooks/*.py`.
+
 ### Máy cá nhân
 
 ```bash
