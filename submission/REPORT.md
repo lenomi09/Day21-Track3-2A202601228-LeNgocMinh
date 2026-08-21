@@ -128,19 +128,31 @@ Dựa trên số đo đầy đủ (50/50 mục tiêu, không phải bản smoke)
 Đòn bẩy thật sự trong lab này **không phải vị trí gắn adapter** — `attn_only` (r=283, chỉ 2 module) hoà tuyệt đối với `correct` (r=16, 12 module) trên cùng ngân sách tham số, chứng minh rằng với một tác vụ hẹp như JSON triage 4 trường và 225 mẫu train, việc "gắn đủ tham số ở đâu" không quan trọng bằng "có đủ tham số hay không". Đòn bẩy rõ ràng nhất được đo được là **learning rate**: lệch 10× (thang full-FT thay vì thang LoRA) phá huỷ hoàn toàn kết quả (target 0.970 → 0.000) — hiệu ứng lớn hơn nhiều so với chênh lệch giữa các cấu hình quantization hay placement. Đứng sau LR, **chất lượng/độ đúng của mask** (chứng minh ở NB1, `supervised_fraction=0.41`, cả hai assert xanh) là điều kiện tiên quyết bắt buộc — không phải một "nút vặn" có thể tinh chỉnh, mà là nền tảng: nếu mask sai (như F-10 trong `SIMULATION-FINDINGS.md` mô tả), mọi con số phía sau đều vô nghĩa bất kể LR hay placement có đúng đến đâu.
 
 **Ba điều tôi học được** *(cụ thể, không generic)*:
-1.
-2.
-3.
+1. Một fine-tune cấu hình đúng có thể thắng một prompt đã tối ưu kỹ với biên độ lớn
+   (+20.5 điểm %), nhưng chỉ *đo được* điều đó nếu baseline (b) được làm nghiêm túc và
+   đóng băng trước khi train — nếu bỏ qua bước đó, rất dễ gán nhầm công của prompt
+   engineering (kéo target từ 0.000 lên 0.765) thành công của riêng việc fine-tune.
+2. Một biến môi trường mặc định sai lệch (`EVAL_LIMIT=8` trong notebook `RUN_ALL`) đủ
+   sức làm cả một lần train+eval tốn hàng chục phút trở thành không nộp được — và chỉ
+   gatekeeper tự động (`scripts/verify.py`, check `smoke_mode`) bắt được lỗi này; tự đọc
+   report hay nhìn qua số liệu sẽ không phát hiện ra.
+3. Khi đi tìm bằng chứng cho một tuyên bố định tính (ở đây là "≥2 ca fine-tune thua"),
+   kiểm tra **hết** mọi ứng viên thay vì chọn lọc mới là điều đáng tin — thử với dữ liệu
+   thật của mình, kết quả có thể là "không tìm thấy ca nào" chứ không phải lúc nào cũng
+   ra đúng con số rubric yêu cầu, và báo cáo trung thực điều đó quan trọng hơn viết cho
+   đủ số.
 
 **Nếu có thêm 2 giờ nữa, tôi sẽ thử:**
 
-> *Hai mục trên (điều học được, và kế hoạch 2 giờ) cố ý để trống — đây là phần phản tư cá
-> nhân, rubric 4.4 chấm theo "cụ thể, không generic", và nó phải là trải nghiệm thật của
-> bạn khi làm lab, không phải suy đoán của người viết report giúp. Ba gợi ý kỹ thuật rút
-> ra được từ chính dữ liệu ở trên, nếu muốn tham khảo rồi viết lại bằng lời của mình:*
-> - *loss column ở NB4 xếp `attn_only` cao hơn `correct` — nếu chỉ tin loss, sẽ báo cáo sai kết luận về vị trí adapter (F-22 trong `SIMULATION-FINDINGS.md`).*
-> - *`.gitattributes`/CRLF trên Windows từng làm `verify.py` báo nhầm "eval set bị sửa" dù không đổi nội dung gì — một bug môi trường chứ không phải bug lab.*
-> - *6/6 ca fine-tune sai đều lệch ở đúng 1 trường (`urgency`) theo cùng một hướng (đoán `trung_binh`) — gợi ý mất cân bằng lớp trong dữ liệu train hơn là lỗi cấu hình.*
+1. Kiểm tra giả thuyết mất cân bằng lớp `urgency` phát hiện ở mục 6 — cân bằng lại phân
+   phối 3 lớp (`cao`/`trung_binh`/`thap`) trong 250 mẫu train rồi train lại, xem 6 ca lỗi
+   đó (tất cả đều lệch đúng trường `urgency`, đoán `trung_binh`) có biến mất không.
+2. Chạy B4 — quét rank có kiểm soát, `r ∈ {8, 16, 64}`, cố định vị trí `text-linear`. Vì
+   `attn_only` (r=283, matched budget) đã hoà tuyệt đối `correct` (r=16) trên target,
+   muốn biết chính **rank** tự nó có phải đòn bẩy không, hay hiệu ứng ở NB4 chỉ đến từ
+   tổng ngân sách tham số bất kể chia ở đâu.
+
+
 
 ---
 
