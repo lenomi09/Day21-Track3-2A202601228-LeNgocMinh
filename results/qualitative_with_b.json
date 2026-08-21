@@ -1,0 +1,106 @@
+[
+  {
+    "ticket": "Cho mình hỏi, mình đặt bình giữ nhiệt mã đơn VN804124. Chưa thấy tiền.",
+    "gold": {
+      "intent": "hoan_tien",
+      "urgency": "thap",
+      "product": "bình giữ nhiệt",
+      "sentiment": "tich_cuc"
+    },
+    "b_pred": "{\"intent\": \"hoan_tien\", \"urgency\": \"trung_binh\", \"product\": \"bình giữ nhiệt\", \"sentiment\": \"tich_cuc\"}",
+    "b_score": 0.75,
+    "ft_pred": "{\"intent\": \"hoan_tien\", \"urgency\": \"trung_binh\", \"product\": \"bình giữ nhiệt\", \"sentiment\":",
+    "ft_score": 0.75
+  },
+  {
+    "ticket": "Shop ơi, mình đặt nồi chiên không dầu mã đơn DH249548. Thiếu phụ kiện.",
+    "gold": {
+      "intent": "san_pham_loi",
+      "urgency": "thap",
+      "product": "nồi chiên không dầu",
+      "sentiment": "trung_tinh"
+    },
+    "b_pred": "{\"intent\": \"hoan_tien\", \"urgency\": \"cao\", \"product\": \"nồi chiên không dầu\", \"sentiment\": \"trung_tinh\"}",
+    "b_score": 0.5,
+    "ft_pred": "{\"intent\": \"san_pham_loi\", \"urgency\": \"trung_binh\", \"product\": \"nồi chiên không dầu\", \"sen",
+    "ft_score": 0.75
+  },
+  {
+    "ticket": "Shop ơi, mình đặt áo khoác gió mã đơn VN613097. Bị lỗi. Khi nào tiện. ",
+    "gold": {
+      "intent": "san_pham_loi",
+      "urgency": "thap",
+      "product": "áo khoác gió",
+      "sentiment": "tich_cuc"
+    },
+    "b_pred": "{\"intent\": \"san_pham_loi\", \"urgency\": \"trung_binh\", \"product\": \"áo khoác gió\", \"sentiment\": \"tich_cuc\"}",
+    "b_score": 0.75,
+    "ft_pred": "{\"intent\": \"san_pham_loi\", \"urgency\": \"trung_binh\", \"product\": \"áo khoác gió\", \"sentiment\"",
+    "ft_score": 0.75
+  },
+  {
+    "ticket": "Chào shop, mình đặt nồi chiên không dầu mã đơn VN949966. Hoàn tiền. Kh",
+    "gold": {
+      "intent": "hoan_tien",
+      "urgency": "thap",
+      "product": "nồi chiên không dầu",
+      "sentiment": "tieu_cuc"
+    },
+    "b_pred": "{\"intent\": \"hoan_tien\", \"urgency\": \"cao\", \"product\": \"nồi chiên không dầu\", \"sentiment\": \"tieu_cuc\"}",
+    "b_score": 0.75,
+    "ft_pred": "{\"intent\": \"hoan_tien\", \"urgency\": \"trung_binh\", \"product\": \"nồi chiên không dầu\", \"sentim",
+    "ft_score": 0.75
+  },
+  {
+    "ticket": "Cho mình hỏi, mình đặt đèn bàn LED mã đơn OD436045. Giao hàng chậm. Kh",
+    "gold": {
+      "intent": "van_chuyen",
+      "urgency": "thap",
+      "product": "đèn bàn LED",
+      "sentiment": "tich_cuc"
+    },
+    "b_pred": "{\"intent\": \"hoi_thong_tin\", \"urgency\": \"trung_binh\", \"product\": \"đèn bàn LED\", \"sentiment\": \"tich_cuc\"}",
+    "b_score": 0.5,
+    "ft_pred": "{\"intent\": \"van_chuyen\", \"urgency\": \"trung_binh\", \"product\": \"đèn bàn LED\", \"sentiment\": \"",
+    "ft_score": 0.75
+  },
+  {
+    "ticket": "Chào shop, mình đặt đèn bàn LED mã đơn OD819229. Sai màu. Khi nào tiện",
+    "gold": {
+      "intent": "san_pham_loi",
+      "urgency": "thap",
+      "product": "đèn bàn LED",
+      "sentiment": "tich_cuc"
+    },
+    "b_pred": "{\"intent\": \"san_pham_loi\", \"urgency\": \"trung_binh\", \"product\": \"đèn bàn LED\", \"sentiment\": \"tich_cuc\"}",
+    "b_score": 0.75,
+    "ft_pred": "{\"intent\": \"san_pham_loi\", \"urgency\": \"trung_binh\", \"product\": \"đèn bàn LED\", \"sentiment\":",
+    "ft_score": 0.75
+  },
+  {
+    "ticket": "Cho mình hỏi, mình đặt chuột không dây mã đơn VN232232. Cho tôi trả lạ",
+    "gold": {
+      "intent": "doi_tra",
+      "urgency": "cao",
+      "product": "chuột không dây",
+      "sentiment": "tich_cuc"
+    },
+    "b_pred": "{\"intent\": \"hoan_tien\", \"urgency\": \"cao\", \"product\": \"chuột không dây\", \"sentiment\": \"tich_cuc\"}",
+    "b_score": 0.75,
+    "ft_pred": "{\"intent\": \"doi_tra\", \"urgency\": \"cao\", \"product\": \"chuột không dây\", \"sentiment\": \"tich_c",
+    "ft_score": 1.0
+  },
+  {
+    "ticket": "Shop ơi, mình đặt ốp lưng điện thoại mã đơn VN812931. Hoàn tiền. Sớm n",
+    "gold": {
+      "intent": "hoan_tien",
+      "urgency": "trung_binh",
+      "product": "ốp lưng điện thoại",
+      "sentiment": "tieu_cuc"
+    },
+    "b_pred": "{\"intent\": \"hoan_tien\", \"urgency\": \"cao\", \"product\": \"ốp lưng điện thoại\", \"sentiment\": \"tieu_cuc\"}",
+    "b_score": 0.75,
+    "ft_pred": "{\"intent\": \"hoan_tien\", \"urgency\": \"trung_binh\", \"product\": \"ốp lưng điện thoại\", \"sentime",
+    "ft_score": 1.0
+  }
+]
