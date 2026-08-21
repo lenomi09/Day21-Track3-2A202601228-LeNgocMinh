@@ -1,0 +1,5 @@
+# The eval/train corpora are checksum-verified byte-for-byte (scripts/verify.py,
+# data/checksums.json). Windows' default core.autocrlf=true rewrites LF -> CRLF on
+# checkout, which flips the checksum without touching a single character of content.
+# Force these files untouched on every platform.
+*.jsonl -text
